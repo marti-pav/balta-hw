@@ -1,0 +1,108 @@
+version: 2
+
+models:
+  - name: stg_claims
+    description: "Staging model for raw claims data"
+    columns:
+      - name: claim_id
+        description: "Primary key of the claims table"
+        tests:
+          - unique
+          - not_null
+      - name: policy_id
+        description: "Foreign key to policies"
+        tests:
+          - relationships:
+              to: ref('stg_policies')
+              field: policy_id
+      - name: d_claim
+        description: "Claim date"
+      - name: amt_claim
+        description: "Claim amount"
+
+  - name: stg_customers
+    description: "Staging model for raw customer data"
+    columns:
+      - name: customer_id
+        description: "Primary key of the customers table"
+        tests:
+          - unique
+          - not_null
+      - name: first_name
+        description: "Customer first name"
+      - name: last_name
+        description: "Customer last name"
+      - name: d_birth
+        description: "Customer birth date"
+      - name: gender_code
+        description: "Gender of the customer (M/F/etc.)"
+      - name: city_name
+        description: "City of residence"
+      - name: segment_code
+        description: "Business/customer segment (e.g., Retail)"
+      - name: d_created
+        description: "Date when customer was created in the system"
+      - name: country_code
+        description: "Country of the customer"
+
+  - name: stg_offers
+    description: "Staging model for raw offers data"
+    columns:
+      - name: offer_id
+        description: "Primary key of the offers table"
+        tests:
+          - not_null
+      - name: customer_id
+        description: "Foreign key to customers"
+        tests:
+          - relationships:
+              to: ref('stg_customers')
+              field: customer_id
+      - name: product_code
+        description: "Insurance product code"
+      - name: product_variant_name
+        description: "Variant of the product (e.g., Europe, Dog)"
+      - name: dt_offer
+        description: "Datetime of the offer"
+      - name: amt_premium_offered
+        description: "Premium amount offered to customer"
+      - name: sales_source_code
+        description: "Sales source (Agent, Broker, etc.)"
+      - name: amt_sum_insured
+        description: "Sum insured for the offer"
+      - name: coverage_hash
+        description: "Coverage identifier hash"
+
+  - name: stg_policies
+    description: "Staging model for raw policies data"
+    columns:
+      - name: policy_id
+        description: "Primary key of the policies table"
+        tests:
+          - not_null
+      - name: customer_id
+        description: "Foreign key to customers"
+        tests:
+          - relationships:
+              to: ref('stg_customers')
+              field: customer_id
+      - name: product_code
+        description: "Insurance product code"
+      - name: product_variant_name
+        description: "Variant of the product (e.g., Europe, Dog)"
+      - name: d_start
+        description: "Policy start date"
+      - name: d_end
+        description: "Policy end date"
+      - name: policy_status_code
+        description: "Status of policy (Active, Expired)"
+      - name: amt_premium_written
+        description: "Written premium amount"
+      - name: amt_sum_insured
+        description: "Sum insured amount"
+      - name: currency_code
+        description: "Currency code of the policy"
+      - name: sales_channel_code
+        description: "Sales channel (Agent, Broker, etc.)"
+      - name: policy_version
+        description: "Policy version number"

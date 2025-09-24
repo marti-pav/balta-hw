@@ -1,0 +1,99 @@
+version: 2
+
+sources:
+  - name: raw
+    description: "Raw CSV files for insurance data (external tables in DuckDB)"
+    schema: main   # DuckDB default schema; required by dbt but not really used for external sources
+
+    tables:
+      - name: claims
+        description: "Raw claims data from claims.csv"
+        config:
+          external_location: "read_csv_auto('../../data/raw/claims.csv')"
+        columns:
+          - name: claim_id
+            description: "Unique claim identifier"
+          - name: policy_id
+            description: "Related policy identifier"
+          - name: claim_date
+            description: "Date of the claim"
+          - name: claim_amount
+            description: "Amount claimed"
+
+      - name: customers
+        description: "Raw customers data from customers.csv"
+        config:
+          external_location: "read_csv_auto('../../data/raw/customers.csv')"
+        columns:
+          - name: customer_id
+            description: "Unique customer identifier"
+          - name: first_name
+            description: "First name of the customer"
+          - name: last_name
+            description: "Last name of the customer"
+          - name: birth_date
+            description: "Birth date of the customer"
+          - name: gender
+            description: "Gender of the customer"
+          - name: city
+            description: "City of residence"
+          - name: segment
+            description: "Business/customer segment"
+          - name: created_at
+            description: "When the customer was registered in the system"
+          - name: country
+            description: "Country of residence"
+
+      - name: offers
+        description: "Raw offers (quotes) data from offers.csv"
+        config:
+          external_location: "read_csv('../../data/raw/offers.csv')"
+        columns:
+          - name: offer_id
+            description: "Unique offer identifier"
+          - name: customer_id
+            description: "Customer who received the offer"
+          - name: product_code
+            description: "Code of the insurance product"
+          - name: product_variant
+            description: "Variant of the product (e.g. Europe, Dog)"
+          - name: offer_datetime
+            description: "Datetime of the offer"
+          - name: premium_offered
+            description: "Premium amount offered"
+          - name: sales_source
+            description: "Sales source (Agent, Broker, etc.)"
+          - name: sum_insured
+            description: "Sum insured in the offer"
+          - name: coverage_hash
+            description: "Coverage hash identifier"
+
+      - name: policies
+        description: "Raw policies data from policies.csv"
+        config:
+          external_location: "read_csv_auto('../../data/raw/policies.csv')"
+        columns:
+          - name: policy_id
+            description: "Unique policy identifier"
+          - name: customer_id
+            description: "Customer who owns the policy"
+          - name: product_code
+            description: "Code of the insurance product"
+          - name: product_variant
+            description: "Variant of the product (e.g. Europe, Dog)"
+          - name: start_date
+            description: "Policy start date"
+          - name: end_date
+            description: "Policy end date"
+          - name: policy_status
+            description: "Status of the policy (Active, Expired, etc.)"
+          - name: written_premium
+            description: "Premium amount written"
+          - name: sum_insured
+            description: "Sum insured in the policy"
+          - name: currency
+            description: "Currency of the policy"
+          - name: sales_channel
+            description: "Sales channel (Agent, Broker, etc.)"
+          - name: policy_version
+            description: "Version of the policy"

@@ -1,0 +1,20 @@
+version: 2
+
+models:
+  - name: fact_kpis
+    description: "KPI fact table combining earned premium, claim ratio, and averages by age group and product."
+    columns:
+      - name: kpi_name
+        description: "Name of the KPI (earned_premium_by_product, claim_ratio_by_product, avg_premium_by_age, avg_claim_by_age)."
+        tests:
+          - not_null
+
+      - name: dimension_value
+        description: "The dimension value the KPI is calculated against (id_dim_products or age_band)."
+        tests:
+          - not_null
+
+      - name: kpi_value
+        description: "Numeric value of the KPI."
+        tests:
+          - not_null

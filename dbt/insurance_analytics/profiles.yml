@@ -1,0 +1,8 @@
+insurance_analytics:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: ./insurance_analytics.duckdb
+      schema: staging
+      threads: 4

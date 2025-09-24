@@ -1,0 +1,99 @@
+version: 2
+
+models:
+  - name: dim_customers
+    description: "Customer dimension"
+    columns:
+      - name: id_dim_customers
+        tests:
+          - unique
+          - not_null
+      - name: id_dim_customer_segments
+        tests:
+          - not_null
+      - name: id_dim_locations
+        tests:
+          - not_null
+
+  - name: dim_products
+    description: "Products dimension"
+    columns:
+      - name: id_dim_products
+        tests:
+          - unique
+          - not_null
+
+  - name: dim_policy_statuses
+    description: "Policy statuses dimension"
+    columns:
+      - name: id_dim_policy_statuses
+        tests:
+          - unique
+          - not_null
+
+  - name: dim_sales_channels
+    description: "Sales channels dimension"
+    columns:
+      - name: id_dim_sales_channels
+        tests:
+          - unique
+          - not_null
+
+  - name: fact_policies
+    description: "Policy fact table"
+    columns:
+      - name: id_fact_policies
+        tests:
+          - not_null
+      - name: id_dim_customers
+        tests:
+          - relationships:
+              to: ref('dim_customers')
+              field: id_dim_customers
+      - name: id_dim_products
+        tests:
+          - relationships:
+              to: ref('dim_products')
+              field: id_dim_products
+      - name: id_dim_policy_statuses
+        tests:
+          - relationships:
+              to: ref('dim_policy_statuses')
+              field: id_dim_policy_statuses
+      - name: id_dim_sales_channels
+        tests:
+          - relationships:
+              to: ref('dim_sales_channels')
+              field: id_dim_sales_channels
+
+  - name: fact_claims
+    description: "Claims fact table"
+    columns:
+      - name: id_fact_claims
+        tests:
+          - not_null
+      - name: id_fact_policies
+        tests:
+          - relationships:
+              to: ref('fact_policies')
+              field: id_fact_policies
+      - name: id_dim_customers
+        tests:
+          - relationships:
+              to: ref('dim_customers')
+              field: id_dim_customers
+      - name: id_dim_products
+        tests:
+          - relationships:
+              to: ref('dim_products')
+              field: id_dim_products
+      - name: id_dim_policy_statuses
+        tests:
+          - relationships:
+              to: ref('dim_policy_statuses')
+              field: id_dim_policy_statuses
+      - name: id_dim_sales_channels
+        tests:
+          - relationships:
+              to: ref('dim_sales_channels')
+              field: id_dim_sales_channels
